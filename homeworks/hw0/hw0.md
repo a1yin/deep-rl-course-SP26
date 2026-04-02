@@ -1,57 +1,33 @@
 ---
 layout: default
-img: hw0/maze.png
-img_link:
+img: maze.png
+img_link: 
 caption: 
 title: Pre-reqs
 type: Homework
 number: 0
 active_tab: homework
-release_date: 01-06-2026
-due_date: 01-20-2026
-materials: https://github.com/pearls-lab/ai-agents-course-WI26/tree/main/homeworks/hw0
+release_date: 03-31-2026
+due_date: 04-14-2026
+materials: https://github.com/pearls-lab/deep-rl-course-SP26/tree/main/homeworks/hw0
 submission_link: https://www.gradescope.com
 readings:
 ---
 
-# HW0
+{% if page.materials %}
+<div class="alert alert-info">
+You can download the materials for this assignment here:
+<ul>
+{% for item in page.materials %}
+<li><a href="{{page.materials}}">code</a></li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
 
-- Release data: 01/06/2026
-- Due date: 01/20/2026 at 11:59 PM.
+---
 
-HW0 consists of two parts:
-- [Part 1: Search and Value Iteration](#part-1-search-and-value-iteration-50pts) (50pts)
-- [Part 2: LM training with Huggingface](https://github.com/pearls-lab/ai-agents-course-WI26/blob/main/homeworks/hw0/part-2-huggingface-LM-training/hw0-part-2.ipynb) (50pts)
-
-You can find the starter code and instruction in the course's GitHub repository: [https://github.com/pearls-lab/ai-agents-course-WI26](https://github.com/pearls-lab/ai-agents-course-WI26)
-
-## Submission
-Submissions should be done on [Gradescope](https://www.gradescope.com).
-You need to submit code for Part 1 and Part 2, and a PDF file for Part 2.
-
-### Submit your code
-
-Please submit the following **4** files to the assignment "HW 0 - Code" on Gradescope:
-
-- `search.py`
-- `searchAgents.py`
-- `valueIterationAgents.py`
-- `hw0-part-2.ipynb`
-
-Do not zip or compress your files. Submit them as individual files. Part 1 will be automatically graded by the Gradescope system. The score displayed immediately after submission will be your final score for Part 1.
-
-### Submit your PDF (only for Part 2)
-
-1. Re-run all cells in order. Ensure that all cell outputs are displayed correctly.
-2. Convert the notebook to PDF: 
-- Download the .ipynb file to your local machine.
-- Use a tool like `nbconvert` to convert the notebook to PDF.
-- Alternatively, if you encounter issues with nbconvert, you can save the notebook webpage as a PDF.
-3. Review the PDF file: Look at the PDF file and make sure all your codes are displayed correctly. 
-5. Submit your PDF and the notebook file on Gradescope: "HW 0 - Part 2 PDF"
-
-
-## HW 0 - Part 1: Search and Value Iteration (50pts)
+# HW 0: Search and Value Iteration (100pts)
 
 <div class="container-fluid">
 <div class="row"><div class="col-lg-6" >
@@ -62,17 +38,17 @@ Do not zip or compress your files. Submit them as individual files. Part 1 will 
 
 In this assignment, your Pacman agent will find paths through his maze world, both to reach a particular location and to collect food efficiently. You will build general search algorithms and apply them to Pacman scenarios.
 
-The code for Part 1 consists of several Python files under `hw0/part-1-search-and-value-iteration`, some of which you will need to read and understand in order to complete the assignment, and some of which you can ignore.
+The code for HW 0 consists of several Python files [here]({{page.materials}}), some of which you will need to read and understand in order to complete the assignment, and some of which you can ignore.
 
 
 | Files you'll edit:         | Description                                                                 |
 |----------------------------|-----------------------------------------------------------------------------|
 | `search.py`                | Where all of your search algorithms will reside.                           |
-| `searchAgents.py`          | Where all of your search-based agents will reside.                         |
 | `valueIterationAgents.py`          | A value iteration agent for solving known MDPs.                         |
 
 | Files you might want to look at: | Description                                                                 |
 |----------------------------------|-----------------------------------------------------------------------------|
+| `searchAgents.py`          | Where all of your search-based agents will reside.                         |
 | `pacman.py`                     | The main file that runs Pacman games. This file describes a Pacman GameState type, which you use in this project. |
 | `game.py`                       | The logic behind how the Pacman world works. This file describes several supporting types like AgentState, Agent, Direction, and Grid. |
 | `mdp.py`                       | Defines methods on general MDPs.                  |
@@ -90,10 +66,10 @@ The code for Part 1 consists of several Python files under `hw0/part-1-search-an
 | `testParser.py`                 | Parses autograder test and solution files                                  |
 | `testClasses.py`                | General autograding test classes                                           |
 | `test_cases/`                   | Directory containing the test cases for each question                      |
-| `HW0TestClasses.py`          | Project 1 specific autograding test classes                                |
+| `HW0TestClasses.py`          | HW0 specific autograding test classes                                |
 
 
-Files to Edit and Submit: You will fill in portions of `search.py`, `searchAgents.py`, and `valueIterationAgents.py` during the assignment. You should submit these files with your code and comments. Please do not change the other files in this distribution or submit any of our original files other than these files.
+Files to Edit and Submit: You will fill in portions of `search.py` and `valueIterationAgents.py` during the assignment. You should submit these files with your code and comments. Please do not change the other files in this distribution or submit any of our original files other than these files.
 
 **Evaluation**: Your code will be autograded for technical correctness. Please do not change the names of any provided functions or classes within the code, or you will wreak havoc on the autograder. However, the correctness of your implementation -- not the autograder's judgements -- will be the final judge of your score. If necessary, we will review and grade assignments individually to ensure that you receive due credit for your work.
 
@@ -101,31 +77,16 @@ Files to Edit and Submit: You will fill in portions of `search.py`, `searchAgent
 
 ### Grading
 
-HW0 - Part 1 includes an autograder for you to grade your answers on your machine. You can run it using the following command:
+HW0 includes an autograder for you to grade your answers on your machine. You can run it using the following command:
 ```
 python autograder.py
 ```
 
-This command grades your solution to all problems in Part 1 and shows the results of that question's tests, the questions grade, and a final summary at the end.
-You will receive full credit for Part 1 if you pass at least 18 out of the 20 test cases. If the number of passed test cases is fewer than 18, 3 points will be deducted for each failed case.
-
-| # passed | Score |
-|----------|-------|
-| >= 18    |  50   |
-| 17       |  47   |
-| 16       |  44   |
-| 15       |  41   |
-| ...      |  ...  |
-| 2        |   2   |
-| 1        |   0   |
-| 0        |   0   |
-
-
-The command of autograder for each question is provded in each section.
+This command grades your solution to all problems in HW 0 and shows the results of that question's tests, the questions grade, and a final summary at the end. The command of autograder for each question is provded in each section.
 
 ### Welcome
 
-After `git clone` and changing to the directory `homeworks/hw0/part-1-search-and-value-iteration``, you should be able to play a game of Pacman by typing the following at the command line:
+After `git clone` and changing to the directory `homeworks/hw0`, you should be able to play a game of Pacman by typing the following at the command line:
 ```
 python pacman.py
 ```
@@ -150,9 +111,11 @@ Note that `pacman.py` supports a number of options that can each be expressed in
 python pacman.py -h
 ```
 
-### Q1 (3 points): Finding a Fixed Food Dot using Depth First Search
+NOTE: Do not use `numpy`. This homework must be completed using only built-in Python.
 
-In `searchAgents.py`, you'll find a fully implemented `SearchAgent`, which plans out a path through Pacman's world and then executes that path step-by-step. The search algorithms for formulating a plan are not implemented -- that's your job.
+### Q1 (20 points): Finding a Fixed Food Dot using Depth First Search
+
+In `searchAgents.py`, you'll find a fully implemented `SearchAgent`, which plans out a path through Pacman's world and then executes that path step-by-step. The search algorithms (in `search.py`) for formulating a plan are not implemented -- that's your job.
 
 First, test that the `SearchAgent` is working correctly by running:
 ```
@@ -168,7 +131,7 @@ Now it's time to write full-fledged generic search functions to help Pacman plan
 
 *Hint*: Each algorithm is very similar. Algorithms for DFS, BFS, UCS, and A* differ only in the details of how the fringe is managed. So, concentrate on getting DFS right and the rest should be relatively straightforward. Indeed, one possible implementation requires only a single generic search method which is configured with an algorithm-specific queuing strategy. (Your implementation need *not* be of this form to receive full credit).
 
-Implement the depth-first search (DFS) algorithm in the `depthFirstSearch` function in `search.py`. To make your algorithm complete, write the graph search version of DFS, which avoids expanding any already visited states.
+TO DO: Implement the depth-first search (DFS) algorithm in the `depthFirstSearch` function in `search.py`. To make your algorithm complete, write the graph search version of DFS, which avoids expanding any already visited states.
 
 Your code should quickly find a solution for:
 ```
@@ -185,9 +148,9 @@ Hint: If you use a `Stack` as your data structure, the solution found by your DF
 python autograder.py -q q1
 ```
 
-### Q2 (3 points): Breadth First Search
+### Q2 (20 points): Breadth First Search
 
-Implement the breadth-first search (BFS) algorithm in the `breadthFirstSearch` function in `search.py`. Again, write a graph search algorithm that avoids expanding any already visited states. Test your code the same way you did for depth-first search.
+TO DO: Implement the breadth-first search (BFS) algorithm in the `breadthFirstSearch` function in `search.py`. Again, write a graph search algorithm that avoids expanding any already visited states. Test your code the same way you did for depth-first search.
 
 ```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs
@@ -207,13 +170,13 @@ python eightpuzzle.py
 python autograder.py -q q2
 ```
 
-### Q3 (3 points): Varying the Cost Function (Uniform Cost Search)
+### Q3 (20 points): Varying the Cost Function (Uniform Cost Search)
 
 While BFS will find a fewest-actions path to the goal, we might want to find paths that are "best" in other senses. Consider `mediumDottedMaze` and `mediumScaryMaze`.
 
 By changing the cost function, we can encourage Pacman to find different paths. For example, we can charge more for dangerous steps in ghost-ridden areas or less for steps in food-rich areas, and a rational Pacman agent should adjust its behavior in response.
 
-Implement the uniform-cost graph search algorithm in the `uniformCostSearch` function in `search.py`. We encourage you to look through `util.py` for some data structures that may be useful in your implementation. You should now observe successful behavior in all three of the following layouts, where the agents below are all UCS (Uniform Cost Search) agents that differ only in the cost function they use (the agents and cost functions are written for you):
+TO DO: Implement the uniform-cost graph search algorithm in the `uniformCostSearch` function in `search.py`. We encourage you to look through `util.py` for some data structures that may be useful in your implementation. You should now observe successful behavior in all three of the following layouts, where the agents below are all UCS (Uniform Cost Search) agents that differ only in the cost function they use (the agents and cost functions are written for you):
 
 ```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs
@@ -228,9 +191,9 @@ Grading: Please run the below command to see if your implementation passes all t
 python autograder.py -q q3
 ```
 
-### Q4 (3 points): A* Search
+### Q4 (20 points): A* Search
 
-Implement A* graph search in the empty function `aStarSearch` in `search.py`. A* takes a heuristic function as an argument. Heuristics take two arguments: a state in the search problem (the main argument), and the problem itself (for reference information). The `nullHeuristic` heuristic function in `search.py` is a trivial example.
+TO DO: Implement A* graph search in the empty function `aStarSearch` in `search.py`. A* takes a heuristic function as an argument. Heuristics take two arguments: a state in the search problem (the main argument), and the problem itself (for reference information). The `nullHeuristic` heuristic function in `search.py` is a trivial example.
 
 You can test your A* implementation on the original problem of finding a path through a maze to a fixed position using the Manhattan distance heuristic (implemented already as `manhattanHeuristic` in `searchAgents.py`).
 ```
@@ -243,45 +206,7 @@ Grading: Please run the below command to see if your implementation passes all t
 python autograder.py -q q4
 ```
 
-
-### Q5 (4 points): Eating All The Dots: Heuristic
-Now we'll solve a hard search problem: eating all the Pacman food in as few steps as possible. For this, we'll need a new search problem definition which formalizes the food-clearing problem: `FoodSearchProblem` in `searchAgents.py` (implemented for you). A solution is defined to be a path that collects all of the food in the Pacman world. For this assingment, solutions do not take into account any ghosts or power pellets; solutions only depend on the placement of walls, regular food and Pacman. If you have written your general search methods correctly, A* with a null heuristic (equivalent to uniform-cost search) should quickly find an optimal solution to `testSearch` with no code change on your part (total cost of 7).
-```
-python pacman.py -l testSearch -p AStarFoodSearchAgent
-```
-Note: `AStarFoodSearchAgent` is a shortcut for
-```
--p SearchAgent -a fn=astar,prob=FoodSearchProblem,heuristic=foodHeuristic
-```
-
-You should find that UCS starts to slow down even for the seemingly simple `tinySearch`. As a reference, our implementation takes 2.5 seconds to find a path of length 27 after expanding 5057 search nodes.
-
-*Note*: Make sure to complete Question 4 before working on Question 5, because Question 5 builds upon your answer for Question 4.
-
-Fill in `foodHeuristic` in `searchAgents.py` with a heuristic for the `FoodSearchProblem`. Try your agent on the `trickySearch` board:
-```
-python pacman.py -l trickySearch -p AStarFoodSearchAgent
-```
-Our UCS agent finds the optimal solution in about 13 seconds, exploring over 16,000 nodes.
-
-Any non-trivial non-negative heuristic will receive 1 point. Make sure that your heuristic returns 0 at every goal state and never returns a negative value. Depending on how few nodes your heuristic expands, you'll get additional points:
-
-| Number of nodes expanded | Grade                          |
-|---------------------------|-------------------------------|
-| more than 15000          | 1/4                           |
-| at most 15000            | 2/4                           |
-| at most 12000            | 3/4                           |
-| at most 9000             | 4/4 (full credit; medium)     |
-| at most 7000             | 5/4 (optional extra credit; hard) |
-
-
-
-Grading: Please run the below command to see if your implementation passes all the autograder test cases.
-```
-python autograder.py -q q5
-```
-
-### Q6 (6 points): Value Iteration
+### Q5 (20 points): Value Iteration
 
 Value Iteration computes the value function $V_k(s)$ for each state $s$, which represents the maximum expected reward achievable starting from that state. The value update equation is:
 
@@ -313,7 +238,7 @@ for the new values, $V_k$. When a state's value is updated in iteration k based 
 To test your implementation, run the autograder:
 
 ```
-python autograder.py -q q6
+python autograder.py -q q5
 ```
 
 The following command loads your ValueIterationAgent, which will run value iteration with 100 iterations.
@@ -324,9 +249,20 @@ python pacman.py -l tinySimple -p ValueIterationAgent -i 100
 Hint: On the tinySimple layout, running value iteration for 10 iterations should give you this output:
 
 <div class="container-fluid">
-<div class="row"><div class="col-lg-6" >
-<img src="img/tinySimple_iter10.png" style="height: 100%; width: 100%; max-width: 500px">
+<div class="row">
+<div class="col-lg-6" >
+<img src="img/tinySimple_iter10.png" style="height: 100%; width: 100%; max-width: 400px">
 </div></div></div>
+
+# Submission
+Submissions should be done on [Gradescope](https://www.gradescope.com).
+You need to submit **2** files to Gradescope: "HW 0".
+
+- `search.py`
+- `valueIterationAgents.py`
+
+HW 0 will be automatically graded by the Gradescope system. The score displayed immediately after submission will be your final score.
+
 
 ### Acknowledgment
 This assignment incorporates many elements from the CS 188 course materials developed at UC Berkeley.
