@@ -1,0 +1,6 @@
+take memo
+go south
+enter pin 7301
+go east
+take cash
+go north
