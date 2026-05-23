@@ -8,6 +8,16 @@ mcp = FastMCP("ifdb-tool")
 BASE_URL = "https://ifdb.org"
 
 
+def _fetch_games(searchfor: str) -> list[dict]:
+    response = httpx.get(
+        f"{BASE_URL}/search",
+        params={"json": "1", "game": "1", "searchfor": searchfor},
+        follow_redirects=True,
+    )
+    response.raise_for_status()
+    return response.json()["games"]
+
+
 def get_gblorb_links(game_id: str) -> list[str]:
     """Helper: fetch the game page and return all .gblorb download URLs."""
     page = httpx.get(f"{BASE_URL}/viewgame?id={game_id}", follow_redirects=True)
@@ -38,55 +48,47 @@ def get_download_links(game_id: str) -> list[str]:
 def get_top_rated_game() -> str:
     """Get the top-rated game on IFDB, including its gblorb download links."""
 
-    # TODO: Call the IFDB JSON API and read data["games"]
-    # TODO: Sort the game list by game["starSort"] (descending) and pick the first game.
-    # TODO: Call get_gblorb_links() with the game's tuid
-    # TODO: Return a JSON string (use json.dumps) with title, author, average_rating, num_ratings, gblorb_urls:
-    #     {
-    #       "title": <string>,            # from game["title"]
-    #       "author": <string>,           # from game["author"]
-    #       "average_rating": <float>,    # from game["averageRating"]
-    #       "num_ratings": <int>,         # from game["numRatings"]
-    #       "gblorb_urls": [<string>, ...]# list of download URLs
-    #     }
-
-    pass
+    games = _fetch_games("#ratings:1-")
+    game = max(games, key=lambda g: g["starSort"])
+    return json.dumps({
+        "title": game["title"],
+        "author": game["author"],
+        "average_rating": game["averageRating"],
+        "num_ratings": game["numRatings"],
+        "gblorb_urls": get_gblorb_links(game["tuid"]),
+    })
 
 
 @mcp.tool()
 def get_most_rated_game() -> str:
     """Get the most-rated game on IFDB (highest number of ratings), including its gblorb download links."""
 
-    # TODO: Call the IFDB JSON API and read data["games"]
-    # TODO: Sort the game list by game["numRatings"] (descending) and pick the first game.
-    # TODO: Call get_gblorb_links() with the game's tuid
-    # TODO: Return a JSON string (use json.dumps) with title, author, average_rating, num_ratings, gblorb_urls:
-    #     {
-    #       "title": <string>,            # from game["title"]
-    #       "author": <string>,           # from game["author"]
-    #       "average_rating": <float>,    # from game["averageRating"]
-    #       "num_ratings": <int>,         # from game["numRatings"]
-    #       "gblorb_urls": [<string>, ...]# list of download URLs
-    #     }
-    pass
+    games = _fetch_games("#ratings:1-")
+    game = max(games, key=lambda g: g["numRatings"])
+    return json.dumps({
+        "title": game["title"],
+        "author": game["author"],
+        "average_rating": game["averageRating"],
+        "num_ratings": game["numRatings"],
+        "gblorb_urls": get_gblorb_links(game["tuid"]),
+    })
 
 
 @mcp.tool()
 def get_game_by_title(title: str) -> str:
     """Search IFDB by title and return the best-matching game with its download links."""
 
-    # TODO: Call the IFDB JSON API with params={"json": "1", "game": "1", "searchfor": title}.
-    # TODO: Take the first game in data["games"] (results are already sorted by relevance).
-    # TODO: Call `get_download_links()` with the game's tuid
-    # TODO: Return a JSON string (use json.dumps) with title, author, average_rating, num_ratings, download_urls:
-    #     {
-    #       "title": <string>,             # from game["title"]
-    #       "author": <string>,            # from game["author"]
-    #       "average_rating": <float>,     # from game["averageRating"]
-    #       "num_ratings": <int>,          # from game["numRatings"]
-    #       "download_urls": [<string>, ...] # list of download URLs
-    #     }
-    pass
+    games = _fetch_games(title)
+    if not games:
+        return json.dumps({"error": f"No game found for title: {title}"})
+    game = games[0]
+    return json.dumps({
+        "title": game["title"],
+        "author": game["author"],
+        "average_rating": game["averageRating"],
+        "num_ratings": game["numRatings"],
+        "download_urls": get_download_links(game["tuid"]),
+    })
 
 
 if __name__ == "__main__":

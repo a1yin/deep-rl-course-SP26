@@ -35,9 +35,13 @@ def send_command(command: str) -> str:
     if _game is None:
         return "No game loaded. Use 'load_game' first."
 
-    # TODO: Send the command to the current game session. See `send` in JerichoGame.
-    # TODO: Return a JSON string with observation, score, moves, and done flag
-    pass
+    obs = _game.send(command)
+    return json.dumps({
+        "observation": obs,
+        "score": _game.score,
+        "moves": _game.moves,
+        "done": _game.done,
+    }, indent=2)
 
 
 if __name__ == "__main__":
