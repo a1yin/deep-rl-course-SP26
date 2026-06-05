@@ -1,0 +1,11 @@
+"In Zork, the jeweled egg is a valuable object that can be opened with a "knife" or "saw"? Actually in Zork I recall a jeweled egg that can be opened with a "knife" or "saw"."
+
+Here the model asks itself a question and pretty much answers it with the question. In the trace it probably could have just been the second sentence.
+
+"Thus we need to issue 'up' from Canyon Bottom to Rocky Ledge (they already did up earlier). At Canyon Bottom, they can 'up'. Let's try 'up'. ... Thus we should give command 'up'."
+
+Wrong location. The game history shows the player is at End of Rainbow (steps 71–76), not Canyon Bottom, but the model plans an up move as if they were at the canyon bottom. It also keeps rambling for many lines about knives, saws, and house navigation from fuzzy Zork memory after it already picked the action.
+
+"The player may need to 'open egg' but they lack tool. They need to find a 'knife' or 'saw'."
+
+Ignoring prior feedback. Step 52 already tried open egg and the game replied 'You have neither the tools nor the expertise.' The model still builds a long plan around hunting for a knife or saw to open the egg instead of moving on from what the game already said.
